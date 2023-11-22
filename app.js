@@ -12,8 +12,7 @@ app
 app.route("/tasks/:idTask").get(TaskController.getTask).patch(TaskController.updateTask).delete(TaskController.deleteTask)
 
 app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).send(err.message);
+  res.status(err.status).send(err.message);
 });
 
 module.exports = app;

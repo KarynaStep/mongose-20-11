@@ -1,10 +1,14 @@
-const Task = require('../models/Task')
+const createError = require("http-errors");
+const Task = require("../models/Task");
 
 module.exports.createTask = async (req, res, next) => {
   try {
     const { body } = req;
     const newTask = await Task.create(body);
-    res.status(201).send({ date: newTask });
+    if (!newTask) {
+      next(createError(400, "Bad request!"));
+    }
+    res.status(201).send({ data: newTask });
   } catch (error) {
     next(error);
   }
@@ -12,8 +16,11 @@ module.exports.createTask = async (req, res, next) => {
 
 module.exports.getAllTasks = async (req, res, next) => {
   try {
-    const tasks = await Task.find({});
-    res.status(200).send({ date: tasks });
+    const tasks = await Task.find();
+    if (tasks.length === 0) {
+      res.status(200).send({ data: "tasks are empty" });
+    }
+    res.status(200).send({ data: tasks });
   } catch (error) {
     next(error);
   }
@@ -21,9 +28,14 @@ module.exports.getAllTasks = async (req, res, next) => {
 
 module.exports.getTask = async (req, res, next) => {
   try {
-    const { params: { idTask } } = req;
+    const {
+      params: { idTask },
+    } = req;
     const task = await Task.findById(idTask);
-    res.status(200).send({ date: task });
+    if (!task) {
+      next(createError(404, "Task not found!"));
+    }
+    res.status(200).send({ data: task });
   } catch (error) {
     next(error);
   }
@@ -33,10 +45,16 @@ module.exports.updateTask = async (req, res, next) => {
   try {
     const {
       params: { idTask },
-      body
+      body,
     } = req;
-    const task = await Task.findByIdAndUpdate(idTask, body, {new: true, runValidators: true});
-    res.status(200).send({ date: task });
+    const task = await Task.findByIdAndUpdate(idTask, body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!task) {
+      next(createError(404, "Task not found!"));
+    }
+    res.status(200).send({ data: task });
   } catch (error) {
     next(error);
   }
@@ -45,10 +63,13 @@ module.exports.updateTask = async (req, res, next) => {
 module.exports.deleteTask = async (req, res, next) => {
   try {
     const {
-      params: { idTask }
+      params: { idTask },
     } = req;
     const task = await Task.findByIdAndDelete(idTask);
-    res.status(200).send({ date: task });
+    if (!task) {
+      next(createError(404, "Task not found!"));
+    }
+    res.status(200).send({ data: task });
   } catch (error) {
     next(error);
   }
