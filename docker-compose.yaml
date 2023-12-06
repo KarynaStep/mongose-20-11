@@ -1,0 +1,55 @@
+services:
+  server-app:
+    build: 
+      context: ./
+      dockerfile: Dockerfile-dev
+    hostname: app-server
+    ports:
+      - "3005:3000"
+    volumes:
+      - ./:/server:ro
+    depends_on:
+      - db-mongo
+    networks: 
+      - my-bridge 
+    restart: on-failure   
+
+  db-mongo:
+    image: mongo:7.0.3
+    hostname: mongodb
+    volumes: 
+      - /Users/karynastepanova/Documents/backup-mongo:/data/db
+    networks: 
+      - my-bridge 
+    restart: always   
+
+networks:
+  my-bridge:
+
+
+# services:
+#  server-app:
+#   build: 
+#     context: ./
+#     dockerfile: Dockerfile-dev
+#   ports:
+#     -"3005:3000"
+#   volumes:
+#     - ./:/server:ro
+#   depends_on:
+#     -db-mongo
+#   networks:
+#     -my-bridge
+#   restart: on-failure
+
+#  db-mongo: 
+#   image: mongo:7.0.3
+#   volumes:
+#     - /Users/karynastepanova/Documents/backup-mpngo:/data/db
+#   networks:
+#     -my-bridge 
+#   restart: alwase
+
+# networks:
+#   my-bridge:
+  

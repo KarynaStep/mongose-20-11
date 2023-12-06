@@ -1,0 +1,1 @@
+Before start project  rename file .examle.env to .env

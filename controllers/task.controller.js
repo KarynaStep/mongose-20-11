@@ -74,7 +74,8 @@ module.exports.deleteTask = async (req, res, next) => {
     } = req;
     const task = await Task.findByIdAndDelete(idTask);
     if (!task) {
-     return next(createError(404, "Task not found!"));
+      return next(createError(404, "Task not found!")); 
+      
     }
     //delete all comments this task!!!
     await Comment.deleteMany({taskId:task._id})

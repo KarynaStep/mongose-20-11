@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const { contentSchema } = require("../utils/validationSchema");
+const { contentSchema } = require('../utils/validationSchema');
 
 const commentSchema = new Schema(
   {
@@ -19,7 +19,7 @@ const commentSchema = new Schema(
     taskId: {
       required: true,
       type: Schema.Types.ObjectId,
-      ref: "Task",
+      ref: 'Task',
     },
   },
   {
@@ -28,6 +28,6 @@ const commentSchema = new Schema(
   }
 );
 
-const Comment = mongoose.model("Comment", commentSchema);
+const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = Comment;

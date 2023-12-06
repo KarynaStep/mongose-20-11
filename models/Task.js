@@ -1,6 +1,6 @@
-const { isAfter } = require("date-fns");
-const mongoose = require("mongoose");
-const { contentSchema, emailSchema } = require("../utils/validationSchema");
+const { isAfter } = require('date-fns');
+const mongoose = require('mongoose');
+const { contentSchema, emailSchema } = require('../utils/validationSchema');
 const { Schema } = mongoose;
 
 const taskSchema = new Schema(
@@ -32,13 +32,13 @@ const taskSchema = new Schema(
         default: 1,
       },
     },
-    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   },
   {
     versionKey: false,
     timestamps: true,
   }
 );
-const Task = mongoose.model("Task", taskSchema);
+const Task = mongoose.model('Task', taskSchema);
 
 module.exports = Task;
